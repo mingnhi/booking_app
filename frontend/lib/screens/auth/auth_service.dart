@@ -55,43 +55,55 @@ class AuthService extends ChangeNotifier {
         body: jsonEncode({'email': email, 'password': password}),
       );
 
-      print('Login response status: ${response.statusCode}');
-      print('Login response body: ${response.body}');
+      print(' Login response status: ${response.statusCode}');
+      print(' Login response body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
 
-        // ✅ Đúng key theo backend (accessToken, refresh_token)
-        final accessToken = data['accessToken'];
-        final refreshToken = data['refresh_token'];
-
-        if (accessToken != null) {
-          await _storage.write(key: 'accessToken', value: accessToken);
-        } else {
-          print('⚠️ Warning: accessToken is null');
+        if (data is! Map<String, dynamic>) {
+          print(' Invalid JSON format from server');
+          errorMessage = 'Dữ liệu phản hồi không hợp lệ';
+          return null;
         }
 
-        if (refreshToken != null) {
+        final accessToken = data['accessToken']?.toString();
+        final refreshToken = data['refresh_token']?.toString();
+
+        if (accessToken != null && accessToken.isNotEmpty) {
+          await _storage.write(key: 'accessToken', value: accessToken);
+        } else {
+          print(' Warning: accessToken is null or empty');
+        }
+
+        if (refreshToken != null && refreshToken.isNotEmpty) {
           await _storage.write(key: 'refreshToken', value: refreshToken);
         } else {
-          print('⚠️ Warning: refresh_token is null');
+          print(' Warning: refresh_token is null or empty');
         }
 
         final loginResponse = LoginResponse.fromJson(data);
+
         if (loginResponse.user != null) {
           currentUser = loginResponse.user;
-          notifyListeners();
+          print('Logged in as: ${currentUser?.email}');
         } else {
-          print(' loginResponse.user is null');
+          print('loginResponse.user is null');
         }
+
+        notifyListeners();
         return loginResponse;
       } else {
+        // 🔹 Khi server trả lỗi (401, 400, 500, ...)
+        print(' Login failed: ${response.statusCode}');
+        print('Body: ${response.body}');
         throw Exception(
             'Login failed: ${response.statusCode} - ${response.body}');
       }
     } catch (e, s) {
       print('Error logging in: $e');
-      print(s); 
+      print(s); // stack trace
+
       try {
         final parts = e.toString().split(' - ');
         if (parts.length > 1) {
@@ -103,12 +115,18 @@ class AuthService extends ChangeNotifier {
       } catch (_) {
         errorMessage = e.toString();
       }
+
       return null;
     } finally {
       isLoading = false;
-      notifyListeners();
+      try {
+        notifyListeners();
+      } catch (e) {
+        print('notifyListeners error: $e');
+      }
     }
   }
+
 
   bool isAdmin() {
     return currentUser?.role == 'admin';

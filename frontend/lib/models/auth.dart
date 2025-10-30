@@ -6,12 +6,20 @@ class LoginResponse {
   LoginResponse({this.user, this.accessToken, this.refreshToken});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    return LoginResponse(
-      user: json['user'] != null ? User.fromJson(json['user']) : null,
-      accessToken: json['accessToken'] ?? '',
-      refreshToken: json['refresh_token'] ?? '',
-    );
+    try {
+      return LoginResponse(
+        user: (json['user'] != null && json['user'] is Map<String, dynamic>)
+            ? User.fromJson(json['user'])
+            : null,
+        accessToken: (json['accessToken'] ?? '').toString(),
+        refreshToken: (json['refresh_token'] ?? '').toString(),
+      );
+    } catch (e) {
+      print('Error parsing LoginResponse: $e');
+      return LoginResponse(user: null, accessToken: '', refreshToken: '');
+    }
   }
+
 }
 
 class User {
