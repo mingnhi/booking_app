@@ -1,7 +1,7 @@
 class LoginResponse {
   final User? user;
-  final String accessToken;
-  final String refreshToken;
+  final String? accessToken;
+  final String? refreshToken;
 
   LoginResponse({
     required this.user,
@@ -12,8 +12,8 @@ class LoginResponse {
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
       user: json['user'] != null ? User.fromJson(json['user']) : null,
-      accessToken: json['accessToken'],
-      refreshToken: json['refresh_token'],
+      accessToken: json['accessToken'] ?? '',
+      refreshToken: json['refresh_token'] ?? '',
     );
   }
 }
@@ -34,11 +34,11 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['_id'],
-      fullName: json['full_name'],
-      email: json['email'],
-      phoneNumber: json['phone_number'],
-      role: json['role'],
+      id: json['_id'] ?? '',
+      fullName: json['full_name'] ?? '',
+      email: json['email'] ?? '',
+      phoneNumber: json['phone_number'] ?? '',
+      role: json['role'] ?? 'user',
     );
   }
 }

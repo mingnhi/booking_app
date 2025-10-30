@@ -78,8 +78,10 @@ class AuthService extends ChangeNotifier {
         }
 
         final loginResponse = LoginResponse.fromJson(data);
-        currentUser = loginResponse.user;
-        notifyListeners();
+        if (loginResponse.user != null) {
+          currentUser = loginResponse.user;
+          notifyListeners();
+        }
         return loginResponse;
       } else {
         throw Exception(
