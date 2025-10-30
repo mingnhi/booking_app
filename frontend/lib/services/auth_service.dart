@@ -173,6 +173,7 @@ class AuthService extends ChangeNotifier {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
+
     final token = await _storage.read(key: 'accessToken');
     if (token == null) {
       errorMessage = 'No access token found';
@@ -181,17 +182,38 @@ class AuthService extends ChangeNotifier {
       return null;
     }
     try {
+      print('Fetching profile with token: $token');
       final response = await http.get(
         Uri.parse('$baseUrl/auth/profile'),
-        headers: {'Authorization': 'Bearer $token'},
+        headers: {'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
       );
+      print(' Profile status: ${response.statusCode}');
+      print(' Profile body: ${response.body}');
+
       if (response.statusCode == 200) {
-        print('Profile Response: ${response.body}');
-        currentUser = User.fromJson(jsonDecode(response.body));
+        final data = jsonDecode(response.body);
+
+        if (data is Map<String, dynamic> && data.containsKey('user')) {
+          currentUser = User.fromJson(data['user']);
+        } else if (data is Map<String, dynamic>) {
+          currentUser = User.fromJson(data);
+        } else {
+          throw Exception('Invalid profile data structure');
+        }
+
         notifyListeners();
         return currentUser;
+      }
+      else if (response.statusCode == 401) {
+        errorMessage = 'Unauthorized — token expired or invalid.';
+        print('Token expired, try refreshToken()...');
+        await refreshToken();
+        return null;
       } else {
-        throw Exception('Failed to get profile: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to get profile: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error getting profile: $e');

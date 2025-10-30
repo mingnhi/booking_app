@@ -1,5 +1,5 @@
 class LoginResponse {
-  final User user;
+  final User? user;
   final String accessToken;
   final String refreshToken;
 
@@ -11,7 +11,7 @@ class LoginResponse {
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      user: User.fromJson(json['user']),
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
       accessToken: json['accessToken'],
       refreshToken: json['refresh_token'],
     );
