@@ -43,20 +43,73 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  // Future<LoginResponse?> login(String email, String password) async {
+  //   isLoading = true;
+  //   errorMessage = null;
+  //   notifyListeners();
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('$baseUrl/auth/login'),
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: jsonEncode({'email': email, 'password': password}),
+  //     );
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //       final data = jsonDecode(response.body);
+  //       await _storage.write(key: 'accessToken', value: data['accessToken']);
+  //       await _storage.write(key: 'refreshToken', value: data['refresh_token']);
+        
+  //       final loginResponse = LoginResponse.fromJson(data);
+  //       currentUser = loginResponse.user;
+  //       notifyListeners();
+  //       return loginResponse;
+  //     } else {
+  //       throw Exception('Login failed: ${response.statusCode} - ${response.body}');
+  //     }
+  //   } catch (e) {
+  //     print('Error logging in: $e');
+  //     errorMessage = e.toString().contains('Login failed')
+  //         ? jsonDecode(e.toString().split(' - ')[1])['message']
+  //         : e.toString();
+  //     return null;
+  //   } finally {
+  //     isLoading = false;
+  //     notifyListeners();
+  //   }
+  // }
   Future<LoginResponse?> login(String email, String password) async {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
+
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/auth/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'password': password}),
       );
+
+      print('Login response status: ${response.statusCode}');
+      print('Login response body: ${response.body}');
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
-        await _storage.write(key: 'accessToken', value: data['accessToken']);
-        await _storage.write(key: 'refreshToken', value: data['refresh_token']);
+
+        // ✅ Đúng key theo backend (accessToken, refresh_token)
+        final accessToken = data['accessToken'];
+        final refreshToken = data['refresh_token'];
+
+        if (accessToken != null) {
+          await _storage.write(key: 'accessToken', value: accessToken);
+        } else {
+          print('⚠️ Warning: accessToken is null');
+        }
+
+        if (refreshToken != null) {
+          await _storage.write(key: 'refreshToken', value: refreshToken);
+        } else {
+          print('⚠️ Warning: refresh_token is null');
+        }
+
         final loginResponse = LoginResponse.fromJson(data);
         currentUser = loginResponse.user;
         notifyListeners();
@@ -66,15 +119,24 @@ class AuthService extends ChangeNotifier {
       }
     } catch (e) {
       print('Error logging in: $e');
-      errorMessage = e.toString().contains('Login failed')
-          ? jsonDecode(e.toString().split(' - ')[1])['message']
-          : e.toString();
+      try {
+        final parts = e.toString().split(' - ');
+        if (parts.length > 1) {
+          final jsonBody = jsonDecode(parts[1]);
+          errorMessage = jsonBody['message'] ?? 'Unknown error';
+        } else {
+          errorMessage = e.toString();
+        }
+      } catch (_) {
+        errorMessage = e.toString();
+      }
       return null;
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
+
 
   bool isAdmin() {
     return currentUser?.role == 'admin';

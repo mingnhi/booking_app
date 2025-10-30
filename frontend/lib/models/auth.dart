@@ -3,7 +3,11 @@ class LoginResponse {
   final String accessToken;
   final String refreshToken;
 
-  LoginResponse({required this.user, required this.accessToken, required this.refreshToken});
+  LoginResponse({
+    required this.user,
+    required this.accessToken,
+    required this.refreshToken,
+  });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
@@ -21,7 +25,12 @@ class User {
   final String? phoneNumber;
   final String role;
 
-  User({required this.id, required this.fullName, required this.email, this.phoneNumber, required this.role});
+  User(
+      {required this.id,
+      required this.fullName,
+      required this.email,
+      this.phoneNumber,
+      required this.role});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -41,13 +50,18 @@ class RegisterRequest {
   final String? phoneNumber;
   final String role;
 
-  RegisterRequest({required this.fullName, required this.email, required this.password, this.phoneNumber, this.role = 'user'});
+  RegisterRequest(
+      {required this.fullName,
+      required this.email,
+      required this.password,
+      this.phoneNumber,
+      this.role = 'user'});
 
   Map<String, dynamic> toJson() => {
-    'full_name': fullName,
-    'email': email,
-    'password': password,
-    'phone_number': phoneNumber,
-    'role': role,
-  };
+        'full_name': fullName,
+        'email': email,
+        'password': password,
+        'phone_number': phoneNumber,
+        'role': role,
+      };
 }
