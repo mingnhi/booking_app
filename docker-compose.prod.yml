@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    image: docker.io/truongminhnhhi/booking-backend:latest
+    container_name: booking_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # nếu NestJS có dùng .env file
+      - MONGODB_URI=mongodb+srv://minhnhi:12070123a@cluster1.appoae6.mongodb.net/booking-app?retryWrites=true&w=majority&appName=Cluster1
+    networks:
+      - booking_network
+
+  frontend:
+    image: docker.io/truongminhnhhi/booking-frontend:latest
+    container_name: booking_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - booking_network
+
+networks:
+  booking_network:
+    driver: bridge
