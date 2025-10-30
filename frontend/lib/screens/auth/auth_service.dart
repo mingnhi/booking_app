@@ -89,8 +89,9 @@ class AuthService extends ChangeNotifier {
         throw Exception(
             'Login failed: ${response.statusCode} - ${response.body}');
       }
-    } catch (e) {
+    } catch (e, s) {
       print('Error logging in: $e');
+      print(s); 
       try {
         final parts = e.toString().split(' - ');
         if (parts.length > 1) {

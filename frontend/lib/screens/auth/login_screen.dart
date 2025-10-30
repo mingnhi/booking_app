@@ -181,16 +181,26 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                     final email = _emailController.text;
                                     final password = _passwordController.text;
                                     final authService = Provider.of<AuthService>(context, listen: false); // Lấy AuthService
-                                    final success = await authService.login(email, password);
-                                    if (success != null) {
-                                      // Kiểm tra vai trò của người dùng
+                                    final loginResponse = await authService.login(email, password);
+                                    if (loginResponse != null && (loginResponse.accessToken?.isNotEmpty ?? false)) {
                                       if (authService.isAdmin()) {
-                                        Navigator.pushReplacementNamed(context, '/admin'); // Chuyển hướng đến trang admin
+                                        Navigator.pushReplacementNamed(context, '/admin');
                                       } else {
-                                        Navigator.pushReplacementNamed(context, '/home'); // Chuyển hướng đến trang user
+                                        Navigator.pushReplacementNamed(context, '/home');
                                       }
-                                    }
-                                  },
+                                    } else {
+                                        ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    authService.errorMessage ??
+                                                        'Đăng nhập thất bại'),
+                                                backgroundColor:
+                                                    Colors.redAccent,
+                                              ),
+                                            );
+                                          }
+                                        },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.blueAccent.shade400, // Matches gradient
                                     foregroundColor: Colors.white,
