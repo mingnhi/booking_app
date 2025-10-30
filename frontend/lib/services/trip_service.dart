@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../models/trip.dart';
 
 class TripService extends ChangeNotifier {
-  final String baseUrl = 'http://127.0.0.1:3000';
+  final String baseUrl = 'https://booking-app-1-bzfs.onrender.com';
   final _storage = FlutterSecureStorage();
   bool isLoading = false;
   List<Trip> trips = [];
@@ -21,7 +21,8 @@ class TripService extends ChangeNotifier {
     }
   }
 
-  void addRecentSearch(String departureId, String arrivalId, DateTime date, {String? tripId}) {
+  void addRecentSearch(String departureId, String arrivalId, DateTime date,
+      {String? tripId}) {
     recentSearches.insert(0, {
       'departureId': departureId,
       'arrivalId': arrivalId,
@@ -56,9 +57,11 @@ class TripService extends ChangeNotifier {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final List<dynamic> data = jsonDecode(response.body);
-        trips = data.map((e) => Trip.fromJson(e as Map<String, dynamic>)).toList();
+        trips =
+            data.map((e) => Trip.fromJson(e as Map<String, dynamic>)).toList();
       } else {
-        throw Exception('Failed to fetch trips: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to fetch trips: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching trips: $e');
@@ -92,7 +95,8 @@ class TripService extends ChangeNotifier {
       final body = {
         if (departureLocation != null) 'departure_location': departureLocation,
         if (arrivalLocation != null) 'arrival_location': arrivalLocation,
-        if (departureTime != null) 'departure_time': DateFormat('yyyy-MM-dd').format(departureTime),
+        if (departureTime != null)
+          'departure_time': DateFormat('yyyy-MM-dd').format(departureTime),
       };
 
       if (kDebugMode) print('Search trips request body: $body');
@@ -105,13 +109,17 @@ class TripService extends ChangeNotifier {
         body: jsonEncode(body),
       );
 
-      if (kDebugMode) print('Search trips response: ${response.statusCode} - ${response.body}');
+      if (kDebugMode)
+        print(
+            'Search trips response: ${response.statusCode} - ${response.body}');
       if (response.statusCode == 200 || response.statusCode == 201) {
         final List<dynamic> data = jsonDecode(response.body);
-        trips = data.map((e) => Trip.fromJson(e as Map<String, dynamic>)).toList();
+        trips =
+            data.map((e) => Trip.fromJson(e as Map<String, dynamic>)).toList();
         return trips;
       } else {
-        throw Exception('Failed to search trips: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to search trips: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       if (kDebugMode) print('Error searching trips: $e');
@@ -123,7 +131,8 @@ class TripService extends ChangeNotifier {
     }
   }
 
-  Future<Trip?> fetchTripById(String tripId, {bool allowUnauthenticated = false}) async {
+  Future<Trip?> fetchTripById(String tripId,
+      {bool allowUnauthenticated = false}) async {
     if (tripId.isEmpty) {
       errorMessage = 'Trip ID cannot be empty';
       safeNotifyListeners();
@@ -144,14 +153,16 @@ class TripService extends ChangeNotifier {
 
       if (kDebugMode) print('Fetching trip with ID: $tripId');
       final response = await http.get(
-        Uri.parse('$baseUrl/admin/trip/$tripId'), // Sửa endpoint từ /admin/trip/:id thành /trip/:id
+        Uri.parse(
+            '$baseUrl/admin/trip/$tripId'), // Sửa endpoint từ /admin/trip/:id thành /trip/:id
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
         },
       );
 
-      if (kDebugMode) print('Fetch trip response: ${response.statusCode} - ${response.body}');
+      if (kDebugMode)
+        print('Fetch trip response: ${response.statusCode} - ${response.body}');
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final trip = Trip.fromJson(data);
@@ -163,7 +174,8 @@ class TripService extends ChangeNotifier {
         }
         return trip;
       } else {
-        throw Exception('Failed to fetch trip: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to fetch trip: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching trip by ID: $e');
@@ -201,7 +213,8 @@ class TripService extends ChangeNotifier {
         trips.add(newTrip);
         return newTrip;
       } else {
-        throw Exception('Failed to create trip: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to create trip: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       if (kDebugMode) print('Error creating trip: $e');
@@ -212,6 +225,4 @@ class TripService extends ChangeNotifier {
       safeNotifyListeners();
     }
   }
-
-
 }

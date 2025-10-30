@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:frontend/models/user.dart';
 
 class AuthService extends ChangeNotifier {
-  final String baseUrl = 'http://127.0.0.1:3000';
+  final String baseUrl = 'https://booking-app-1-bzfs.onrender.com';
   final _storage = FlutterSecureStorage();
   bool isLoading = false;
   String? errorMessage;
@@ -62,7 +62,8 @@ class AuthService extends ChangeNotifier {
         notifyListeners();
         return loginResponse;
       } else {
-        throw Exception('Login failed: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Login failed: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error logging in: $e');
@@ -93,7 +94,8 @@ class AuthService extends ChangeNotifier {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       } else {
-        throw Exception('Registration failed: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Registration failed: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error registering: $e');
@@ -129,7 +131,8 @@ class AuthService extends ChangeNotifier {
         notifyListeners();
         return currentUser;
       } else {
-        throw Exception('Failed to get profile: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to get profile: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error getting profile: $e');
@@ -169,7 +172,8 @@ class AuthService extends ChangeNotifier {
         }
         return loginResponse;
       } else {
-        throw Exception('Failed to refresh token: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to refresh token: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error refreshing token: $e');

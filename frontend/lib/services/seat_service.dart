@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../models/seat.dart';
 
 class SeatService extends ChangeNotifier {
-  final String baseUrl = 'http://127.0.0.1:3000';
+  final String baseUrl = 'https://booking-app-1-bzfs.onrender.com';
   final _storage = FlutterSecureStorage();
   bool isLoading = false;
   List<Seat> seats = [];
@@ -20,9 +20,12 @@ class SeatService extends ChangeNotifier {
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode == 200) {
-        seats = (jsonDecode(response.body) as List).map((e) => Seat.fromJson(e)).toList();
+        seats = (jsonDecode(response.body) as List)
+            .map((e) => Seat.fromJson(e))
+            .toList();
       } else {
-        throw Exception('Failed to fetch seats: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to fetch seats: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error fetching seats: $e');
@@ -47,7 +50,8 @@ class SeatService extends ChangeNotifier {
         seats = data.map((e) => Seat.fromJson(e)).toList();
         print('Fetched seats for tripId $tripId: $seats');
       } else {
-        throw Exception('Failed to fetch seats by tripId: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to fetch seats by tripId: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error fetching seats by tripId: $e');
@@ -70,9 +74,11 @@ class SeatService extends ChangeNotifier {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         seats = (data['seats'] as List).map((e) => Seat.fromJson(e)).toList();
-        print('Fetched available seats for tripId $tripId: ${seats.length} seats');
+        print(
+            'Fetched available seats for tripId $tripId: ${seats.length} seats');
       } else {
-        throw Exception('Failed to fetch available seats: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to fetch available seats: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error fetching available seats by tripId: $e');
@@ -90,13 +96,17 @@ class SeatService extends ChangeNotifier {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/seats'),
-        headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
         body: jsonEncode(seat.toJson()),
       );
       if (response.statusCode == 200) {
         return Seat.fromJson(jsonDecode(response.body));
       } else {
-        throw Exception('Failed to create seat: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to create seat: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error creating seat: $e');
@@ -114,13 +124,17 @@ class SeatService extends ChangeNotifier {
     try {
       final response = await http.put(
         Uri.parse('$baseUrl/seats/$id'),
-        headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
         body: jsonEncode(seat.toJson()),
       );
       if (response.statusCode == 200) {
         return Seat.fromJson(jsonDecode(response.body));
       } else {
-        throw Exception('Failed to update seat: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to update seat: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error updating seat: $e');

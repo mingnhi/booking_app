@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../models/location.dart';
 
 class LocationService extends ChangeNotifier {
-  final String baseUrl = 'http://127.0.0.1:3000';
+  final String baseUrl = 'https://booking-app-1-bzfs.onrender.com';
   final _storage = FlutterSecureStorage();
   bool isLoading = false;
   List<Location> locations = [];
@@ -45,7 +45,8 @@ class LocationService extends ChangeNotifier {
         final List<dynamic> data = jsonDecode(response.body);
         locations = data.map((e) => Location.fromJson(e)).toList();
       } else {
-        throw Exception('Failed to fetch locations: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Failed to fetch locations: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching locations: $e');
@@ -82,7 +83,7 @@ class LocationService extends ChangeNotifier {
         return newLocation;
       } else {
         errorMessage =
-        'Failed to create location: ${response.statusCode} - ${response.body}';
+            'Failed to create location: ${response.statusCode} - ${response.body}';
         return null;
       }
     } catch (e) {
@@ -122,7 +123,7 @@ class LocationService extends ChangeNotifier {
         return updatedLocation;
       } else {
         errorMessage =
-        'Failed to update location: ${response.statusCode} - ${response.body}';
+            'Failed to update location: ${response.statusCode} - ${response.body}';
         return null;
       }
     } catch (e) {
@@ -156,7 +157,7 @@ class LocationService extends ChangeNotifier {
         return true;
       } else {
         errorMessage =
-        'Failed to delete location: ${response.statusCode} - ${response.body}';
+            'Failed to delete location: ${response.statusCode} - ${response.body}';
         return false;
       }
     } catch (e) {

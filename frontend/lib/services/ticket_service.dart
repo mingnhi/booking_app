@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../models/ticket.dart';
 
 class TicketService extends ChangeNotifier {
-  final String baseUrl = 'http://127.0.0.1:3000';
+  final String baseUrl = 'https://booking-app-1-bzfs.onrender.com';
   final _storage = FlutterSecureStorage();
   bool isLoading = false;
   List<Ticket> tickets = [];
@@ -27,9 +27,12 @@ class TicketService extends ChangeNotifier {
       print('Phản hồi: ${response.statusCode} - ${response.body}');
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
-        tickets = data.map((e) => Ticket.fromJson(e as Map<String, dynamic>)).toList();
+        tickets = data
+            .map((e) => Ticket.fromJson(e as Map<String, dynamic>))
+            .toList();
       } else {
-        throw Exception('Lấy danh sách ticket thất bại: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Lấy danh sách ticket thất bại: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Lỗi khi lấy danh sách ticket: $e');
@@ -57,14 +60,16 @@ class TicketService extends ChangeNotifier {
         },
         body: jsonEncode(ticketData),
       );
-      print('Create ticket response: ${response.statusCode} - ${response.body}');
+      print(
+          'Create ticket response: ${response.statusCode} - ${response.body}');
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final newTicket = Ticket.fromJson(data);
         tickets.add(newTicket);
         return newTicket;
       } else {
-        throw Exception('Tạo ticket thất bại: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Tạo ticket thất bại: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Lỗi khi tạo ticket: $e');
@@ -76,7 +81,8 @@ class TicketService extends ChangeNotifier {
     }
   }
 
-  Future<Ticket?> updateTicket(String id, Map<String, dynamic> ticketData) async {
+  Future<Ticket?> updateTicket(
+      String id, Map<String, dynamic> ticketData) async {
     isLoading = true;
     notifyListeners();
     final token = await _storage.read(key: 'accessToken');
@@ -91,7 +97,8 @@ class TicketService extends ChangeNotifier {
         },
         body: jsonEncode(ticketData),
       );
-      print('Update ticket response: ${response.statusCode} - ${response.body}');
+      print(
+          'Update ticket response: ${response.statusCode} - ${response.body}');
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final updatedTicket = Ticket.fromJson(data);
@@ -101,7 +108,8 @@ class TicketService extends ChangeNotifier {
         }
         return updatedTicket;
       } else {
-        throw Exception('Cập nhật ticket thất bại: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Cập nhật ticket thất bại: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Lỗi khi cập nhật ticket: $e');
@@ -124,12 +132,14 @@ class TicketService extends ChangeNotifier {
         Uri.parse('$baseUrl/tickets/$id'),
         headers: {'Authorization': 'Bearer $token'},
       );
-      print('Delete ticket response: ${response.statusCode} - ${response.body}');
+      print(
+          'Delete ticket response: ${response.statusCode} - ${response.body}');
       if (response.statusCode == 200) {
         tickets.removeWhere((ticket) => ticket.id == id);
         return true;
       } else {
-        throw Exception('Xóa ticket thất bại: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Xóa ticket thất bại: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Lỗi khi xóa ticket: $e');
@@ -164,7 +174,8 @@ class TicketService extends ChangeNotifier {
         }
         return ticket;
       } else {
-        throw Exception('Lấy ticket thất bại: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'Lấy ticket thất bại: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Lỗi khi lấy ticket theo id: $e');
