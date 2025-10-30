@@ -3,11 +3,7 @@ class LoginResponse {
   final String? accessToken;
   final String? refreshToken;
 
-  LoginResponse({
-    required this.user,
-    required this.accessToken,
-    required this.refreshToken,
-  });
+  LoginResponse({this.user, this.accessToken, this.refreshToken});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(

@@ -81,6 +81,8 @@ class AuthService extends ChangeNotifier {
         if (loginResponse.user != null) {
           currentUser = loginResponse.user;
           notifyListeners();
+        } else {
+          print(' loginResponse.user is null');
         }
         return loginResponse;
       } else {
