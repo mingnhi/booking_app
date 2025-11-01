@@ -19,7 +19,6 @@ class LoginResponse {
       return LoginResponse(user: null, accessToken: '', refreshToken: '');
     }
   }
-
 }
 
 class User {

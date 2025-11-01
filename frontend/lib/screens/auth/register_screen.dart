@@ -9,7 +9,8 @@ class RegisterScreen extends StatefulWidget {
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProviderStateMixin {
+class _RegisterScreenState extends State<RegisterScreen>
+    with SingleTickerProviderStateMixin {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _fullNameController = TextEditingController();
@@ -95,7 +96,9 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                       shadowColor: Colors.blueAccent.withOpacity(0.3),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(color: Colors.blueAccent.shade100.withOpacity(0.5), width: 1),
+                        side: BorderSide(
+                            color: Colors.blueAccent.shade100.withOpacity(0.5),
+                            width: 1),
                       ),
                       color: Colors.white.withOpacity(0.95),
                       child: Padding(
@@ -128,17 +131,23 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                                     hintStyle: GoogleFonts.poppins(
                                       color: Colors.blueGrey.shade200,
                                     ),
-                                    prefixIcon: Icon(Icons.person, color: Colors.blueAccent.shade400),
+                                    prefixIcon: Icon(Icons.person,
+                                        color: Colors.blueAccent.shade400),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade100, width: 1.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade100,
+                                          width: 1.5),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade400, width: 2),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade400,
+                                          width: 2),
                                     ),
                                     filled: true,
-                                    fillColor: Colors.blue.shade50.withOpacity(0.5),
+                                    fillColor:
+                                        Colors.blue.shade50.withOpacity(0.5),
                                   ),
                                   style: GoogleFonts.poppins(
                                     color: Colors.blueGrey.shade800,
@@ -158,17 +167,23 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                                     hintStyle: GoogleFonts.poppins(
                                       color: Colors.blueGrey.shade200,
                                     ),
-                                    prefixIcon: Icon(Icons.email, color: Colors.blueAccent.shade400),
+                                    prefixIcon: Icon(Icons.email,
+                                        color: Colors.blueAccent.shade400),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade100, width: 1.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade100,
+                                          width: 1.5),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade400, width: 2),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade400,
+                                          width: 2),
                                     ),
                                     filled: true,
-                                    fillColor: Colors.blue.shade50.withOpacity(0.5),
+                                    fillColor:
+                                        Colors.blue.shade50.withOpacity(0.5),
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   style: GoogleFonts.poppins(
@@ -189,17 +204,23 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                                     hintStyle: GoogleFonts.poppins(
                                       color: Colors.blueGrey.shade200,
                                     ),
-                                    prefixIcon: Icon(Icons.lock, color: Colors.blueAccent.shade400),
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: Colors.blueAccent.shade400),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade100, width: 1.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade100,
+                                          width: 1.5),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade400, width: 2),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade400,
+                                          width: 2),
                                     ),
                                     filled: true,
-                                    fillColor: Colors.blue.shade50.withOpacity(0.5),
+                                    fillColor:
+                                        Colors.blue.shade50.withOpacity(0.5),
                                   ),
                                   obscureText: true,
                                   style: GoogleFonts.poppins(
@@ -220,17 +241,23 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                                     hintStyle: GoogleFonts.poppins(
                                       color: Colors.blueGrey.shade200,
                                     ),
-                                    prefixIcon: Icon(Icons.phone, color: Colors.blueAccent.shade400),
+                                    prefixIcon: Icon(Icons.phone,
+                                        color: Colors.blueAccent.shade400),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade100, width: 1.5),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade100,
+                                          width: 1.5),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.blueAccent.shade400, width: 2),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent.shade400,
+                                          width: 2),
                                     ),
                                     filled: true,
-                                    fillColor: Colors.blue.shade50.withOpacity(0.5),
+                                    fillColor:
+                                        Colors.blue.shade50.withOpacity(0.5),
                                   ),
                                   keyboardType: TextInputType.phone,
                                   style: GoogleFonts.poppins(
@@ -242,42 +269,49 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
                                 authService.isLoading
                                     ? CircularProgressIndicator()
                                     : ElevatedButton(
-                                  onPressed: () async {
-                                    final request = RegisterRequest(
-                                      fullName: _fullNameController.text,
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                      phoneNumber: _phoneNumberController.text,
-                                    );
-                                    final success = await authService.register(request);
-                                    if (success) {
-                                      Navigator.pushReplacementNamed(context, '/auth/login');
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blueAccent.shade400,
-                                    foregroundColor: Colors.white,
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    elevation: 5,
-                                  ),
-                                  child: Container(
-                                    width: double.infinity,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Đăng Ký',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                                        onPressed: () async {
+                                          final request = RegisterRequest(
+                                            fullName: _fullNameController.text,
+                                            email: _emailController.text,
+                                            password: _passwordController.text,
+                                            phoneNumber:
+                                                _phoneNumberController.text,
+                                          );
+                                          final success = await authService
+                                              .register(request);
+                                          if (success) {
+                                            Navigator.pushReplacementNamed(
+                                                context, '/auth/login');
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.blueAccent.shade400,
+                                          foregroundColor: Colors.white,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 16),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          elevation: 5,
+                                        ),
+                                        child: Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'Đăng Ký',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
                                 SizedBox(height: 16),
                                 TextButton(
-                                  onPressed: () => Navigator.pushNamed(context, '/auth/login'),
+                                  onPressed: () => Navigator.pushNamed(
+                                      context, '/auth/login'),
                                   child: Text(
                                     'Đã có tài khoản? Đăng nhập ngay',
                                     style: GoogleFonts.poppins(

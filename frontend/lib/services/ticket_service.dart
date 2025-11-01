@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../models/ticket.dart';
 
 class TicketService extends ChangeNotifier {
-  final String baseUrl = 'https://booking-app-1-bzfs.onrender.com';
+  final String baseUrl = 'http://139.59.247.233:3000';
   final _storage = FlutterSecureStorage();
   bool isLoading = false;
   List<Ticket> tickets = [];
