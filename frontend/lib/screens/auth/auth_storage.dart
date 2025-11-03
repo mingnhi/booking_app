@@ -9,10 +9,10 @@ class AuthStorage {
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(key, value);
-      print("💾 Saved $key to SharedPreferences (Web)");
+      print(" Saved $key to SharedPreferences (Web)");
     } else {
       await _storage.write(key: key, value: value);
-      print("🔐 Saved $key to SecureStorage (Mobile)");
+      print(" Saved $key to SecureStorage (Mobile)");
     }
   }
 
@@ -20,11 +20,11 @@ class AuthStorage {
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString(key);
-      print("📦 Read $key from SharedPreferences (Web): $token");
+      print(" Read $key from SharedPreferences (Web): $token");
       return token;
     } else {
       final token = await _storage.read(key: key);
-      print("📦 Read $key from SecureStorage (Mobile): $token");
+      print("Read $key from SecureStorage (Mobile): $token");
       return token;
     }
   }
@@ -42,10 +42,10 @@ class AuthStorage {
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(key, value);
-      print("💾 [write] Saved $key to SharedPreferences (Web)");
+      print(" [write] Saved $key to SharedPreferences (Web)");
     } else {
       await _storage.write(key: key, value: value);
-      print("🔐 [write] Saved $key to SecureStorage (Mobile)");
+      print(" [write] Saved $key to SecureStorage (Mobile)");
     }
   }
 }
