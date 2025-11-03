@@ -36,11 +36,11 @@ class AuthService extends ChangeNotifier {
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString(key);
-      print("📦 Read $key from SharedPreferences (Web): $token");
+      print("Read $key from SharedPreferences (Web): $token");
       return token;
     } else {
       final token = await _storage.read(key: key);
-      print("📦 Read $key from SecureStorage (Mobile): $token");
+      print("Read $key from SecureStorage (Mobile): $token");
       return token;
     }
   }
@@ -59,7 +59,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // 🔁 Khôi phục phiên đăng nhập nếu có token
+  // Khôi phục phiên đăng nhập nếu có token
   Future<void> _restoreSession() async {
     try {
       final token = await _readToken('accessToken');
@@ -77,11 +77,11 @@ class AuthService extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print('⚠️ Error restoring session: $e');
+      print('Error restoring session: $e');
     }
   }
 
-  // 🔑 Đăng nhập
+  //  Đăng nhập
   Future<LoginResponse?> login(String email, String password) async {
     isLoading = true;
     errorMessage = null;
@@ -89,8 +89,8 @@ class AuthService extends ChangeNotifier {
 
     try {
       final url = Uri.parse('$baseUrl/auth/login');
-      print('🔹 Sending login request to: $url');
-      print('🔹 Payload: email=$email, password=$password');
+      print(' Sending login request to: $url');
+      print(' Payload: email=$email, password=$password');
 
       final response = await http.post(
         url,
@@ -111,7 +111,7 @@ class AuthService extends ChangeNotifier {
 
         final loginResponse = LoginResponse.fromJson(data);
         currentUser = loginResponse.user;
-        print('✅ Logged in user: ${currentUser?.email}');
+        print(' Logged in user: ${currentUser?.email}');
         notifyListeners();
         return loginResponse;
       } else {
@@ -120,7 +120,7 @@ class AuthService extends ChangeNotifier {
         );
       }
     } catch (e, stack) {
-      print('❌ Error logging in: $e');
+      print('Error logging in: $e');
       print(stack);
 
       try {
@@ -142,12 +142,12 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // 👤 Kiểm tra role admin
+  // Kiểm tra role admin
   bool isAdmin() {
     return currentUser?.role == 'admin';
   }
 
-  // 📝 Đăng ký tài khoản mới
+  // Đăng ký tài khoản mới
   Future<bool> register(RegisterRequest request) async {
     isLoading = true;
     errorMessage = null;
@@ -161,14 +161,14 @@ class AuthService extends ChangeNotifier {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print('✅ Register success');
+        print('Register success');
         return true;
       } else {
         throw Exception(
             'Registration failed: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
-      print('❌ Error registering: $e');
+      print(' Error registering: $e');
       errorMessage = e.toString().contains('Registration failed')
           ? jsonDecode(e.toString().split(' - ')[1])['message']
           : e.toString();
@@ -200,12 +200,12 @@ class AuthService extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        print('✅ Profile Response: ${response.body}');
+        print('Profile Response: ${response.body}');
         currentUser = User.fromJson(jsonDecode(response.body));
         notifyListeners();
         return currentUser;
       } else if (response.statusCode == 401) {
-        print('⚠️ Token expired, attempting refresh...');
+        print(' Token expired, attempting refresh...');
         await refreshToken();
       } else {
         throw Exception(
@@ -213,7 +213,7 @@ class AuthService extends ChangeNotifier {
         );
       }
     } catch (e) {
-      print('❌ Error getting profile: $e');
+      print(' Error getting profile: $e');
       errorMessage = e.toString();
     } finally {
       isLoading = false;
@@ -223,7 +223,7 @@ class AuthService extends ChangeNotifier {
     return null;
   }
 
-  // 🔄 Làm mới token
+  //  Làm mới token
   Future<LoginResponse?> refreshToken() async {
     isLoading = true;
     errorMessage = null;
@@ -231,7 +231,7 @@ class AuthService extends ChangeNotifier {
 
     final refreshToken = await _readToken('refreshToken');
     if (refreshToken == null || refreshToken.isEmpty) {
-      print('⚠️ No refresh token found.');
+      print(' No refresh token found.');
       errorMessage = 'No refresh token found';
       isLoading = false;
       notifyListeners();
@@ -246,7 +246,7 @@ class AuthService extends ChangeNotifier {
       );
 
       print(
-          '🔄 Refresh token response: ${response.statusCode} - ${response.body}');
+          ' Refresh token response: ${response.statusCode} - ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -262,7 +262,7 @@ class AuthService extends ChangeNotifier {
         );
       }
     } catch (e) {
-      print('❌ Error refreshing token: $e');
+      print(' Error refreshing token: $e');
       errorMessage = e.toString();
       return null;
     } finally {
