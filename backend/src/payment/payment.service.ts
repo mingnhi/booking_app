@@ -18,7 +18,7 @@ export class PaymentService {
     @InjectModel(Payment.name) private paymentModel: Model<PaymentDocument>,
     @InjectModel(Ticket.name) private ticketModel: Model<TicketDocument>,
     @InjectModel(Seat.name) private seatModel: Model<SeatDocument>,
-  ) {}
+  ) { }
 
   async create(
     userId: string,

@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import '../models/trip.dart';
 
 class TripService extends ChangeNotifier {
-  final String baseUrl = 'http://167.172.78.63:3000';
+  final String baseUrl = 'http://139.59.247.233:3000';
   final storage = AuthStorage();
   bool isLoading = false;
   List<Trip> trips = [];

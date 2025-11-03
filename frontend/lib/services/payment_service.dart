@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/config/paypal_config.dart';
 import 'package:frontend/models/payment.dart';
+import 'package:frontend/screens/auth/auth_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 // import '../models/payment_model.dart';
 
 class PaymentService extends ChangeNotifier {
   final String baseUrl = "http://139.59.247.233:3000";
-  final _storage = FlutterSecureStorage();
+  final storage = AuthStorage();
   bool isLoading = false;
   List<Payment> _payments = [];
   String? lastExecuteUrl;
   List<Payment> get payments => _payments;
 
   Future<void> fetchPayments() async {
-    final token = await _storage.read(key: 'accessToken');
+    final token = await storage.readToken('accessToken');
     if (token == null) return;
 
     final response = await http.get(
@@ -126,7 +127,7 @@ class PaymentService extends ChangeNotifier {
     required String paymentStatus,
     required String captureId,
   }) async {
-    final token = await _storage.read(key: 'accessToken');
+    final token = await storage.readToken('accessToken');
     if (token == null) throw Exception('Token không tồn tại');
 
     if (orderId.isEmpty) {
@@ -242,7 +243,7 @@ class PaymentService extends ChangeNotifier {
     required String paymentId,
     required Map<String, dynamic> refundData,
   }) async {
-    final token = await _storage.read(key: 'accessToken');
+    final token = await storage.readToken('accessToken');
     if (token == null) throw Exception('Token không tồn tại');
 
     final response = await http.put(
