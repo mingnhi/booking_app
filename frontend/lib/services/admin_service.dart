@@ -21,6 +21,7 @@ class AdminService extends ChangeNotifier {
 
   Future<String?> _getValidToken() async {
     var token = await storage.readToken('accessToken');
+    print(' AccessToken hiện tại: $token');
     if (token == null) {
       throw Exception('Không tìm thấy token. Vui lòng đăng nhập lại.');
     }
@@ -58,7 +59,7 @@ class AdminService extends ChangeNotifier {
     _isLoading = true;
     _error = null;
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/trip'),
         headers: {
@@ -86,7 +87,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/trip/$tripId'),
         headers: {
@@ -117,7 +118,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling PUT $baseUrl/admin/trip/$tripId with data: $tripData');
 
       final response = await http.put(
@@ -154,7 +155,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling DELETE $baseUrl/admin/trip/$tripId');
 
       final response = await http.delete(
@@ -186,7 +187,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling POST $baseUrl/admin/trip with data: $tripData');
 
       final response = await http.post(
@@ -222,7 +223,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/users'),
         headers: {
@@ -247,7 +248,7 @@ class AdminService extends ChangeNotifier {
 
   Future<void> updateUser(Map<String, dynamic> updatedUser) async {
     final String userId = updatedUser['_id'];
-    final token = await _getValidToken();
+    final token = await storage.readToken('accessToken');
     final response = await http.put(
       Uri.parse('$baseUrl/admin/users/$userId'),
       headers: {
@@ -267,7 +268,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/location'),
         headers: {
@@ -295,7 +296,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling DELETE $baseUrl/admin/users/$userID');
 
       final response = await http.delete(
@@ -327,7 +328,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/ticket'),
         headers: {
@@ -355,7 +356,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/ticket/$ticketId'),
         headers: {
@@ -385,7 +386,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/seat'),
         headers: {
@@ -416,7 +417,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling PUT $baseUrl/admin/ticket/$ticketId with status: $status');
 
       final response = await http.put(
@@ -453,7 +454,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.delete(
         Uri.parse('$baseUrl/admin/ticket/$ticketId'),
         headers: {
@@ -480,7 +481,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/location/$locationId'),
         headers: {
@@ -510,7 +511,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling POST $baseUrl/admin/location with data: $locationData');
 
       final response = await http.post(
@@ -549,7 +550,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print(
         'Calling PUT $baseUrl/admin/location/$locationId with data: $locationData',
       );
@@ -588,7 +589,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling DELETE $baseUrl/admin/location/$locationId');
 
       final response = await http.delete(
@@ -620,7 +621,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling POST $baseUrl/seats with data: $seatData');
 
       final response = await http.post(
@@ -659,7 +660,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling PUT $baseUrl/seats/$seatId with data: $seatData');
 
       final response = await http.put(
@@ -696,7 +697,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling DELETE $baseUrl/admin/seat/$seatId');
 
       final response = await http.delete(
@@ -728,7 +729,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin'),
         headers: {
@@ -756,7 +757,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/payments/$paymentId'),
         headers: {
@@ -786,7 +787,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print(
         'Calling PATCH $baseUrl/admin/payments/$paymentId with status: $status',
       );
@@ -825,7 +826,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       final response = await http.get(
         Uri.parse('$baseUrl/admin/vehicle'),
         headers: {
@@ -853,7 +854,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling POST $baseUrl/admin/vehicles with data: $vehicleData');
 
       final response = await http.post(
@@ -892,7 +893,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print(
         'Calling PUT $baseUrl/admin/vehicles/$vehicleId with data: $vehicleData',
       );
@@ -931,7 +932,7 @@ class AdminService extends ChangeNotifier {
     _error = null;
 
     try {
-      final token = await _getValidToken();
+      final token = await storage.readToken('accessToken');
       print('Calling DELETE $baseUrl/admin/vehicles/$vehicleId');
 
       final response = await http.delete(
