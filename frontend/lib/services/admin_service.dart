@@ -3,10 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:frontend/screens/auth/auth_storage.dart';
 
 class AdminService extends ChangeNotifier {
   final String baseUrl = 'http://139.59.247.233:3000';
-  final _storage = const FlutterSecureStorage();
+  final storage = AuthStorage();
   bool _isLoading = false;
   String? _error;
   late Dio _dio;
@@ -19,7 +20,7 @@ class AdminService extends ChangeNotifier {
   }
 
   Future<String?> _getValidToken() async {
-    var token = await _storage.read(key: 'accessToken');
+    var token = await storage.readToken('accessToken');
     if (token == null) {
       throw Exception('Không tìm thấy token. Vui lòng đăng nhập lại.');
     }
@@ -30,7 +31,7 @@ class AdminService extends ChangeNotifier {
     );
 
     if (response.statusCode == 401) {
-      final refreshToken = await _storage.read(key: 'refreshToken');
+      final refreshToken = token = await storage.readToken('refreshToken');
       if (refreshToken == null) {
         throw Exception('Không tìm thấy refresh token.');
       }
@@ -43,7 +44,7 @@ class AdminService extends ChangeNotifier {
 
       if (refreshResponse.statusCode == 200) {
         final newToken = jsonDecode(refreshResponse.body)['accessToken'];
-        await _storage.write(key: 'accessToken', value: newToken);
+        await storage.write(key: 'accessToken', value: newToken);
         return newToken;
       } else {
         throw Exception('Không thể refresh token.');
